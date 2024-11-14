@@ -1,0 +1,19 @@
+# systemd service
+# https://systemd.io/
+# https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
+
+[Unit]
+Description=Balance MQTT subscriber
+
+[Service]
+ExecStart=/opt/balance-subscriber/venv/bin/python /opt/balance-subscriber/balance_subscriber/__main__.py
+# Automatically restart the service if it crashes
+Restart=on-failure
+# Our service will notify systemd once it is up and running
+Type=notify
+# Use a dedicated user to run our service
+User=balance-subscriber
+
+[Install]
+# Start on boot (assuming the service is enabled)
+WantedBy=default.target

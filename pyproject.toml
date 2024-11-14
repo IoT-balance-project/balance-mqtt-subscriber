@@ -1,0 +1,29 @@
+# Python package
+# This file defines this Python package.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# Package discovery
+# https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+packages = ["balance_subscriber"]
+
+[project]
+name = "balance-subscriber"
+description = "MQTT listener to save data"
+version = "0.0.1alpha1"
+dependencies = [
+    "paho-mqtt==2.*"
+]
+# https://devguide.python.org/versions/
+requires-python = ">= 3.9"
+authors = [
+    { name = "Joe Heffer", email = "j.heffer@sheffield.ac.uk" }
+]
+
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
+[project.scripts]
+balance-subscriber = "__main__:main"
