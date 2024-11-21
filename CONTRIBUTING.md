@@ -2,5 +2,5 @@
 
 ```bash
 branch="main"
-sudo pip install "git+https://github.com/IoT-balance-project/balance-mqtt-subscriber@$branch"
+sudo pip install --force "git+https://github.com/IoT-balance-project/balance-mqtt-subscriber@$branch"
 ```
