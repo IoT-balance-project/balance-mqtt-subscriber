@@ -3,7 +3,7 @@
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
 
 [build-system]
-requires = ["setuptools >= 61.0"]
+requires = ["setuptools >= 75.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
@@ -26,4 +26,4 @@ authors = [
 
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
 [project.scripts]
-balance-subscriber = "__main__:main"
+balance-subscriber = "balance_subscriber.__main__:main"
