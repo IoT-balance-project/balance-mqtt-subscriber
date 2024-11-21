@@ -3,6 +3,8 @@ import importlib.metadata
 import logging
 import paho.mqtt.client
 
+import balance_subscriber.callbacks
+
 logger = logging.getLogger(__name__)
 
 DESCRIPTION = """
@@ -15,13 +17,18 @@ def get_args():
     Command-line arguments
     """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument('--verbose', '-v', action='store_true')
-    parser.add_argument('topics', nargs='*', help="Topics to subscribe to, default: all", default='#')
-    parser.add_argument('--host', type=str, default='localhost')
-    parser.add_argument('--port', type=int, default=1883)
-    parser.add_argument('--keepalive', type=int, default=60)
-    parser.add_argument("--version", action="version",
-                        version=importlib.metadata.version('balance-subscriber'))
+    parser.add_argument("--verbose", "-v", action="store_true")
+    parser.add_argument(
+        "topics", nargs="*", help="Topics to subscribe to, default: all", default="#"
+    )
+    parser.add_argument("--host", type=str, default="localhost")
+    parser.add_argument("--port", type=int, default=1883)
+    parser.add_argument("--keepalive", type=int, default=60)
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=importlib.metadata.version("balance-subscriber"),
+    )
     return parser.parse_args()
 
 
@@ -55,5 +62,5 @@ def main():
         pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
