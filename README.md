@@ -46,7 +46,7 @@ cp --verbose ./systemd/balance-subscriber.service /etc/systemd/system/balance-su
 Configure the service
 
 ```bash
-systemctl edit myservice
+sudo systemctl edit balance-subscriber.service
 ```
 
 This will create an override configuration file in the directory `/etc/systemd/system/balance-subscriber.service.d`.
