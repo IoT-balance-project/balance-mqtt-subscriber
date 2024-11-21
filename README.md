@@ -43,6 +43,14 @@ Install the [systemd](https://systemd.io/) service.
 cp --verbose ./systemd/balance-subscriber.service /etc/systemd/system/balance-subscriber.service
 ```
 
+Enable the service
+
+```bash
+sudo systemctl enable balance-subscriber.service
+```
+
+# Configuration
+
 Configure the service
 
 ```bash
@@ -60,7 +68,7 @@ Environment="HOST=localhost"
 
 The available options are listed in the configuration section.
 
-# Configuration
+## Options
 
 The following options are available.
 
@@ -76,6 +84,20 @@ These settings are specified in the configuration file for the systemd service a
 # Usage
 
 The app will run as a service in the background.
+
+## Service control
+
+Start the service
+
+```bash
+sudo systemctl start balance-subscriber.service
+```
+
+Stop the service
+
+```bash
+sudo systemctl stop balance-subscriber.service
+```
 
 ## Monitoring
 
