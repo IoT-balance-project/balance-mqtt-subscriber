@@ -12,6 +12,6 @@ def on_connect(client, userdata, flags, reason_code, properties):
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    for topic in userdata['topics']:
+    for topic in userdata["topics"]:
         client.subscribe(topic)
         logger.info("Subscribed to %s", topic)

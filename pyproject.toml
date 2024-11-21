@@ -6,11 +6,6 @@
 requires = ["setuptools >= 75.0"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-# Package discovery
-# https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
-packages = ["balance_subscriber"]
-
 [project]
 name = "balance-subscriber"
 description = "MQTT listener to save data"

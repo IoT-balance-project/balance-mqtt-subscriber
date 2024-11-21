@@ -8,7 +8,9 @@ import paho.mqtt
 logger = logging.getLogger(__name__)
 
 
-def on_message(client: paho.mqtt.client.Client, userdata, msg: paho.mqtt.client.MQTTMessage):
+def on_message(
+    client: paho.mqtt.client.Client, userdata, msg: paho.mqtt.client.MQTTMessage
+):
     """
     The callback for when a PUBLISH message is received from the server.
 
@@ -20,6 +22,6 @@ def on_message(client: paho.mqtt.client.Client, userdata, msg: paho.mqtt.client.
     # Serialise message
     filename = f"{uuid.uuid4().hex}.bin"
     path = Path() / filename
-    with path.open('wb') as file:
+    with path.open("wb") as file:
         file.write(msg.payload)
         logger.debug("Wrote %s", file.name)
