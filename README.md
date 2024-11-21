@@ -1,4 +1,4 @@
-[![Build Python package](https://github.com/IoT-balance-project/balance-mqtt-subscriber/actions/workflows/python-package.yaml/badge.svg)](https://github.com/IoT-balance-project/balance-mqtt-subscriber/actions/workflows/python-package.yaml)
+[![Tests](https://github.com/IoT-balance-project/balance-mqtt-subscriber/actions/workflows/test.yaml/badge.svg)](https://github.com/IoT-balance-project/balance-mqtt-subscriber/actions/workflows/test.yaml)
 
 # MQTT subscriber
 
