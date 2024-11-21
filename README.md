@@ -29,7 +29,13 @@ pip install --upgrade balance-subscriber
 
 ## Set up service
 
-Create a service user called `balance-subscriber` with permissions to write to the target data directory.
+Create a service account called `balance-subscriber`.
+
+```bash
+sudo useradd --system balance-subscriber
+```
+
+This user must have permissions to write to the target data directory.
 
 Install the [systemd](https://systemd.io/) service.
 
