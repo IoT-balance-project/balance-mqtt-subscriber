@@ -31,7 +31,7 @@ def on_message(
     # E.g. '/mnt/data/plant/PL-f15320/Network/193.bin'
     filename = f"{msg.mid}.bin"  # message identifier
     path = Path(userdata["data_dir"]) / topic_path / filename
-
+    path.parent.mkdir(parents=True, exist_ok=True)
     # Serialise binary data
     with path.open("wb") as file:
         file.write(msg.payload)
