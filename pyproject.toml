@@ -27,3 +27,9 @@ authors = [
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
 [project.scripts]
 balance-subscriber = "balance_subscriber.__main__:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "flake8"
+]
