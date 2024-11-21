@@ -6,7 +6,7 @@
 Description=Balance MQTT subscriber
 
 [Service]
-ExecStart=/opt/balance-subscriber/venv/bin/python /opt/balance-subscriber/balance_subscriber/__main__.py
+ExecStart=/opt/balance-subscriber/venv/bin/balance-subscriber
 # Automatically restart the service if it crashes
 Restart=on-failure
 # Our service will notify systemd once it is up and running
