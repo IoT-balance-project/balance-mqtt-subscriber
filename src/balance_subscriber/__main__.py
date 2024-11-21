@@ -3,8 +3,6 @@ import importlib.metadata
 import logging
 import paho.mqtt.client
 
-import balance_subscriber.callbacks
-
 logger = logging.getLogger(__name__)
 
 DESCRIPTION = """
