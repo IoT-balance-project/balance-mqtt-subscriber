@@ -79,7 +79,7 @@ def get_client(topics: set[str], data_dir: Path) -> paho.mqtt.client.Client:
 
 def main():
     args = get_args()
-    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
+    logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
 
     # Connect to message broker
     client = get_client(topics=args.topics, data_dir=args.data_dir)
