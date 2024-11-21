@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 def on_message(
-    client: paho.mqtt.client.Client, userdata: dict, msg: paho.mqtt.client.MQTTMessage
+        client: paho.mqtt.client.Client, userdata: dict, msg: paho.mqtt.client.MQTTMessage
 ):
     """
     The callback for when a PUBLISH message is received from the server.
@@ -26,6 +26,7 @@ def on_message(
     filename = f"{msg.mid}.bin"  # message identifier
     # Create a directory based on topic name
     path = Path(userdata["data_dir"]) / msg.topic / filename
+    path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("wb") as file:
         file.write(msg.payload)
         logger.debug("Wrote %s", file.name)
