@@ -1,6 +1,5 @@
 import datetime
 import logging
-import uuid
 from pathlib import Path
 
 import paho.mqtt.client
