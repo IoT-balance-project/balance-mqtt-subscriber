@@ -10,7 +10,8 @@ ExecStart=/opt/balance-subscriber/venv/bin/balance-subscriber
 # Automatically restart the service if it crashes
 Restart=on-failure
 # Our service will notify systemd once it is up and running
-Type=notify
+# https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html#Type=
+Type=exec
 # Use a dedicated user to run our service
 User=balance-subscriber
 
