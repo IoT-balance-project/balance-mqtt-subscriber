@@ -11,4 +11,4 @@ jobs:
       - name: Install systemdlint
         run: pip install systemdlint
       - name: Lint systemd units
-        run: systemdtlint ./systemd/*
+        run: systemdlint  ./systemd/*
