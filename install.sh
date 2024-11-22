@@ -15,3 +15,6 @@ $venv_dir/bin/pip install --upgrade balance-subscriber
 
 # Install the systemd service
 cp --verbose ./systemd/balance-subscriber.service /etc/systemd/system/balance-subscriber.service
+
+# Reload systemd units
+systemctl daemon-reload
