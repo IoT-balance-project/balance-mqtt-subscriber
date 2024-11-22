@@ -6,6 +6,9 @@ A service to listen for messages and save the data.
 
 # Installation
 
+There is a Bash script to install this service: [`install.sh`](install.sh).
+There are further details below.
+
 ## Install Python package
 
 Create a virtual environment
