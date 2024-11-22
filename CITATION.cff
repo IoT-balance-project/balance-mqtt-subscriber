@@ -1,12 +1,10 @@
-# YAML 1.2
 # https://citation-file-format.github.io/
----
+cff-version: 1.2.0
+title: Balance MQTT subscriber
+type: software
+repository-code: 'https://github.com/IoT-balance-project/balance-mqtt-subscriber'
 authors: 
-  -
-    affiliation: "University of Sheffield"
+  - given-names: "Joe Salvador Thornhill"
     family-names: Heffer
-    given-names: "Joe Salvador Thornhill"
+    affiliation: "University of Sheffield"
     orcid: "https://orcid.org/0000-0001-8733-1117"
-cff-version: "1.1.0"
-message: "If you use this software, please cite it using these metadata."
-...
