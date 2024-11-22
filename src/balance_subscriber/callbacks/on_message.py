@@ -32,7 +32,9 @@ def on_message(
     filename = f"{msg.mid}.bin"  # message identifier
     path = Path(userdata["data_dir"]) / topic_path / filename
     path.parent.mkdir(parents=True, exist_ok=True)
+
     # Serialise binary data
-    with path.open("wb") as file:
+    # open for exclusive creation, failing if the file already exists
+    with path.open("xb") as file:
         file.write(msg.payload)
         logger.info("Wrote %s", file.name)
