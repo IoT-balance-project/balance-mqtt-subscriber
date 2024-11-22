@@ -14,6 +14,9 @@ Restart=on-failure
 Type=exec
 # Use a dedicated user to run our service
 User=balance-subscriber
+# Disable resource control delegation (this is a very simple service)
+# https://www.freedesktop.org/software/systemd/man/latest/systemd.resource-control.html#Delegate=
+Delegate=no
 
 [Install]
 # Start on boot (assuming the service is enabled)
