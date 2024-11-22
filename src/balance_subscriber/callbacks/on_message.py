@@ -30,9 +30,11 @@ def on_message(
     # Ensure directory exits
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    timestamp = datetime.datetime.fromtimestamp(msg.timestamp, datetime.timezone.utc)
+    # Convert bytes to string
+    # https://docs.python.org/3/library/stdtypes.html#bytes.decode
+    payload = msg.payload.decode(encoding='utf-8')
 
     # Append to CSV file
     with path.open("a") as file:
         writer = csv.writer(file)
-        writer.writerow((timestamp.isoformat(), msg.payload))
+        writer.writerow((msg.timestamp, payload))
