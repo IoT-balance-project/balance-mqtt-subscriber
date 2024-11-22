@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
-      - name: Install systemdlint
+      - name: Install systemdlint==1.*
         run: pip install systemdlint
       - name: Lint systemd units
-        run: systemdlint  ./systemd/*
+        run: systemdlint ./systemd/*
