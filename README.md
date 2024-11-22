@@ -46,6 +46,12 @@ Install the [systemd](https://systemd.io/) service.
 cp --verbose ./systemd/balance-subscriber.service /etc/systemd/system/balance-subscriber.service
 ```
 
+Reload all systemd unit files
+
+```bash
+sudo systemctl daemon-reload
+```
+
 Enable the service
 
 ```bash
