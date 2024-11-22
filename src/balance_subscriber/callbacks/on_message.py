@@ -1,3 +1,4 @@
+import csv
 import datetime
 import logging
 from pathlib import Path
@@ -19,22 +20,19 @@ def on_message(
     MQTT message class
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.MQTTMessage
     """
-    timestamp = datetime.datetime.fromtimestamp(msg.timestamp, datetime.timezone.utc)
-    logger.debug(":%s:%s:%s", timestamp.isoformat(), msg.topic, msg.payload)
-
     # Build file path
     # Create a directory based on topic name
-    topic_path = Path(msg.topic)
     # Remove the path root (we want to make a subdirectory in our data directory)
-    # E.g. '/plant/PL-f15320/Network' becomes 'plant/PL-f15320/Network'
-    topic_path = topic_path.relative_to(topic_path.root)
-    # E.g. '/mnt/data/plant/PL-f15320/Network/193.bin'
-    filename = f"{msg.mid}.bin"  # message identifier
-    path = Path(userdata["data_dir"]) / topic_path / filename
+    # E.g. '/plant/PL-f15320/Network' becomes 'plant/PL-f15320/Network.csv'
+    topic_path = Path(msg.topic.lstrip('/') + '.csv')
+    path = Path(userdata["data_dir"]) / topic_path
+
+    # Ensure directory exits
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Serialise binary data
-    # open for exclusive creation, failing if the file already exists
-    with path.open("xb") as file:
-        file.write(msg.payload)
-        logger.info("Wrote %s", file.name)
+    timestamp = datetime.datetime.fromtimestamp(msg.timestamp, datetime.timezone.utc)
+
+    # Append to CSV file
+    with path.open("a") as file:
+        writer = csv.writer(file)
+        writer.writerow((timestamp.isoformat(), msg.payload))
