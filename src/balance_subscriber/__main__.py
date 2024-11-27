@@ -51,6 +51,7 @@ def get_args():
         default=int(os.getenv("KEEP_ALIVE", 60)),
         help="MQTT broker keep-alive interval",
     )
+    parser.add_argument("--encoding", default="utf-8", help="CSV output text character set")
     parser.add_argument(
         "--version",
         action="version",
@@ -68,7 +69,7 @@ def get_client(topics: set[str], data_dir: Path) -> paho.mqtt.client.Client:
     # https://eclipse.dev/paho/files/paho.mqtt.python/html/index.html#logger
     client.enable_logger()
     # Make the topics available to the on_connect callback
-    client.user_data_set(dict(topics=topics, data_dir=data_dir))
+    client.user_data_set(dict(topics=topics, data_dir=data_dir, encoding=args.encoding))
 
     # Register callbacks
     client.on_connect = balance_subscriber.callbacks.on_connect
