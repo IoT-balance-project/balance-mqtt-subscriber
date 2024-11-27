@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 def on_message(
-        _: paho.mqtt.client.Client, userdata: dict, msg: paho.mqtt.client.MQTTMessage
+    _: paho.mqtt.client.Client, userdata: dict, msg: paho.mqtt.client.MQTTMessage
 ):
     """
     The callback for when a PUBLISH message is received from the server.
