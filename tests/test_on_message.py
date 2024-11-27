@@ -10,7 +10,7 @@ import balance_subscriber.callbacks
 logger = logging.getLogger(__name__)
 
 
-def test_on_message(caplog):
+def test_on_message():
     # Message options
     client = None
     userdata = dict(data_dir=tempfile.mkdtemp())
