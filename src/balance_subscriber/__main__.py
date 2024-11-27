@@ -52,6 +52,9 @@ def get_args():
         help="MQTT broker keep-alive interval",
     )
     parser.add_argument(
+        "--encoding", default="utf-8", help="CSV output text character set"
+    )
+    parser.add_argument(
         "--version",
         action="version",
         version=importlib.metadata.version("balance-subscriber"),
@@ -59,7 +62,9 @@ def get_args():
     return parser.parse_args()
 
 
-def get_client(topics: set[str], data_dir: Path) -> paho.mqtt.client.Client:
+def get_client(
+    topics: set[str], data_dir: Path, encoding: str = "utf-8"
+) -> paho.mqtt.client.Client:
     if not data_dir:
         raise ValueError("No data directory specified")
 
@@ -68,7 +73,7 @@ def get_client(topics: set[str], data_dir: Path) -> paho.mqtt.client.Client:
     # https://eclipse.dev/paho/files/paho.mqtt.python/html/index.html#logger
     client.enable_logger()
     # Make the topics available to the on_connect callback
-    client.user_data_set(dict(topics=topics, data_dir=data_dir))
+    client.user_data_set(dict(topics=topics, data_dir=data_dir, encoding=encoding))
 
     # Register callbacks
     client.on_connect = balance_subscriber.callbacks.on_connect
@@ -82,7 +87,9 @@ def main():
     logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
 
     # Connect to message broker
-    client = get_client(topics=args.topics, data_dir=args.data_dir)
+    client = get_client(
+        topics=args.topics, data_dir=args.data_dir, encoding=args.encoding
+    )
     client.connect(host=args.host, port=args.port, keepalive=args.keepalive)
 
     # Blocking call that processes network traffic, dispatches callbacks and handles reconnecting.

@@ -38,3 +38,6 @@ test = [
 [project.urls]
 Homepage = "https://pypi.org/p/balance-subscriber"
 Issues = "https://github.com/IoT-balance-project/balance-mqtt-subscriber/issues"
+
+[tool.pytest.ini_options]
+log_cli = true
