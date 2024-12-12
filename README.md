@@ -60,35 +60,35 @@ sudo systemctl enable balance-subscriber.service
 
 # Configuration
 
-Configure the service
+Configure the service using the systemd configuration editor.
 
 ```bash
 sudo systemctl edit balance-subscriber.service
 ```
 
-This will create an override configuration file in the directory `/etc/systemd/system/balance-subscriber.service.d`.
-Edit this file to set the options for the service, such as the target data directory.
+This will create or edit an override configuration file in the directory `/etc/systemd/system/balance-subscriber.service.d`.
+Edit this file to set the options for the service, such as the target data directory. Each row defines an environment variable containing a configuration setting for the service.
 
 ```unit file (systemd)
 [Service]
 Environment="DATA_DIR=/tmp"
-Environment="HOST=localhost"
 ```
 
-The available options are listed in the configuration section.
+Then, restart the service as described in the service control section.
 
 ## Options
 
 The following options are available.
 
-| Setting  | Description                                         |
-|----------|-----------------------------------------------------|
-| DATA_DIR | The target directory to serialise MQTT messages to. |
-| HOST     | MQTT broker host name                               |
-| PORT     | MQTT broker port                                    |
-| TOPICS   | MQTT topics                                         |
+| Setting      | Required | Description                                                  | Default   |
+| ------------ | -------- | ------------------------------------------------------------ | --------- |
+| `DATA_DIR`   | Required | The path of the target directory to serialise MQTT messages to. |           |
+| `HOST`       | Optional | MQTT broker host name                                        | localhost |
+| `PORT`       | Optional | MQTT broker port                                             | 1883      |
+| `TOPICS`     | Optional | MQTT topics                                                  | #         |
+| `KEEP_ALIVE` | Optional | MQTT broker keep-alive interval (time in seconds)            | 60        |
 
-These settings are specified in the configuration file for the systemd service as described in the installation section.
+These settings are specified in the configuration file for the systemd service as described above.
 
 # Usage
 
@@ -106,6 +106,12 @@ Stop the service
 
 ```bash
 sudo systemctl stop balance-subscriber.service
+```
+
+Restart the service
+
+```bash
+sudo systemctl restart balance-subscriber.service
 ```
 
 ## Monitoring
