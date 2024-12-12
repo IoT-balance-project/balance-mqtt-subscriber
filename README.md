@@ -6,6 +6,9 @@ A service to listen for messages and save the data.
 
 # Installation
 
+There is a Bash script to install this service: [`install.sh`](install.sh).
+There are further details below.
+
 ## Install Python package
 
 Create a virtual environment
@@ -41,6 +44,12 @@ Install the [systemd](https://systemd.io/) service.
 
 ```bash
 cp --verbose ./systemd/balance-subscriber.service /etc/systemd/system/balance-subscriber.service
+```
+
+Reload all systemd unit files
+
+```bash
+sudo systemctl daemon-reload
 ```
 
 Enable the service

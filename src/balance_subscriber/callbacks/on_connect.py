@@ -1,9 +1,11 @@
 import logging
 
+from paho.mqtt.reasoncodes import ReasonCode
+
 logger = logging.getLogger(__name__)
 
 
-def on_connect(client, userdata, flags, reason_code, properties):
+def on_connect(client, userdata, flags, reason_code: ReasonCode, properties):
     """
     The callback for when the client receives a CONNACK response from the server.
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.Client.on_connect

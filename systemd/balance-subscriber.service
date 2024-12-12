@@ -11,9 +11,13 @@ ExecStart=/opt/balance-subscriber/venv/bin/balance-subscriber
 # Automatically restart the service if it crashes
 Restart=on-failure
 # Our service will notify systemd once it is up and running
-Type=notify
+# https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html#Type=
+Type=exec
 # Use a dedicated user to run our service
 User=balance-subscriber
+# Disable resource control delegation (this is a very simple service)
+# https://www.freedesktop.org/software/systemd/man/latest/systemd.resource-control.html#Delegate=
+Delegate=no
 
 [Install]
 # Start on boot (assuming the service is enabled)

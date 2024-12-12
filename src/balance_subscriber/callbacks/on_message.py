@@ -1,15 +1,13 @@
-import datetime
+import csv
 import logging
-from pathlib import Path
-
-import paho.mqtt.client
+from paho.mqtt.client import MQTTMessage, Client
+from balance_subscriber.message import Message
+from balance_subscriber.topic import Topic
 
 logger = logging.getLogger(__name__)
 
 
-def on_message(
-        client: paho.mqtt.client.Client, userdata: dict, msg: paho.mqtt.client.MQTTMessage
-):
+def on_message(_: Client, userdata: dict, msg: MQTTMessage):
     """
     The callback for when a PUBLISH message is received from the server.
 
@@ -19,20 +17,9 @@ def on_message(
     MQTT message class
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.MQTTMessage
     """
-    timestamp = datetime.datetime.fromtimestamp(msg.timestamp, datetime.timezone.utc)
-    logger.debug(":%s:%s:%s", timestamp.isoformat(), msg.topic, msg.payload)
-
-    # Build file path
-    # Create a directory based on topic name
-    topic_path = Path(msg.topic)
-    # Remove the path root (we want to make a subdirectory in our data directory)
-    # E.g. '/plant/PL-f15320/Network' becomes 'plant/PL-f15320/Network'
-    topic_path = topic_path.relative_to(topic_path.root)
-    # E.g. '/mnt/data/plant/PL-f15320/Network/193.bin'
-    filename = f"{msg.mid}.bin"  # message identifier
-    path = Path(userdata["data_dir"]) / topic_path / filename
-    path.parent.mkdir(parents=True, exist_ok=True)
-    # Serialise binary data
-    with path.open("wb") as file:
-        file.write(msg.payload)
-        logger.info("Wrote %s", file.name)
+    row = Message.message_to_row(msg, encoding=userdata.get("encoding", "utf-8"))
+    path = Topic(msg.topic).to_path(data_dir=userdata["data_dir"])
+    # Append to CSV file
+    with path.open(mode="a") as file:
+        writer = csv.writer(file)
+        writer.writerow(row)
