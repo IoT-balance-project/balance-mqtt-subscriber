@@ -80,13 +80,14 @@ Then, restart the service as described in the service control section.
 
 The following options are available.
 
-| Setting      | Required | Description                                                  | Default   |
-| ------------ | -------- | ------------------------------------------------------------ | --------- |
+| Setting      | Required | Description                                                    | Default   |
+|--------------| -------- |----------------------------------------------------------------|-----------|
 | `DATA_DIR`   | Required | The path of the target directory to serialise MQTT messages to. |           |
-| `HOST`       | Optional | MQTT broker host name                                        | localhost |
-| `PORT`       | Optional | MQTT broker port                                             | 1883      |
-| `TOPICS`     | Optional | MQTT topics                                                  | #         |
-| `KEEP_ALIVE` | Optional | MQTT broker keep-alive interval (time in seconds)            | 60        |
+| `HOST`       | Optional | MQTT broker host name                                          | localhost |
+| `PORT`       | Optional | MQTT broker port                                               | 1883      |
+| `TOPICS`     | Optional | MQTT topics                                                    | #         |
+| `KEEP_ALIVE` | Optional | MQTT broker keep-alive interval (time in seconds)              | 60        |
+| `LOG_LEVEL`  | Optional | Logging verbosity                                              | WARNING   |
 
 These settings are specified in the configuration file for the systemd service as described above.
 

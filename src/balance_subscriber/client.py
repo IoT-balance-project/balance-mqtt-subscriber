@@ -7,7 +7,7 @@ import balance_subscriber.callbacks
 
 
 def get_client(
-    topics: set[str], data_dir: Union[str, Path], encoding: str = "utf-8"
+        topics: set[str], data_dir: Union[str, Path], encoding: str = "utf-8"
 ) -> paho.mqtt.client.Client:
     """
     Initialise the MQTT client
@@ -26,6 +26,8 @@ def get_client(
 
     # Register callbacks
     client.on_connect = balance_subscriber.callbacks.on_connect
+    client.on_connect_fail = balance_subscriber.callbacks.on_connect_fail
     client.on_message = balance_subscriber.callbacks.on_message
+    client.on_subscribe = balance_subscriber.callbacks.on_subscribe
 
     return client
