@@ -34,6 +34,8 @@ def get_client(
 
     # Register callbacks
     client.on_connect = balance_subscriber.callbacks.on_connect
+    client.on_connect_fail = balance_subscriber.callbacks.on_connect_fail
     client.on_message = balance_subscriber.callbacks.on_message
+    client.on_subscribe = balance_subscriber.callbacks.on_subscribe
 
     return client

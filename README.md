@@ -89,6 +89,7 @@ The following options are available.
 | `PASSWORD`   | Optional | MQTT broker password                                            |           |
 | `TOPICS`     | Optional | MQTT topics                                                     | #         |
 | `KEEP_ALIVE` | Optional | MQTT broker keep-alive interval (time in seconds)               | 60        |
+| `LOG_LEVEL`  | Optional | Logging verbosity                                              | WARNING   |
 
 These settings are specified in the configuration file for the systemd service as described above.
 

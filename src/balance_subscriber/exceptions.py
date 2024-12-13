@@ -1,0 +1,2 @@
+class SubscriptionError(Exception):
+    pass
