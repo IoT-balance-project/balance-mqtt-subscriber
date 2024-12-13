@@ -61,6 +61,8 @@ def get_args():
         action="version",
         version=importlib.metadata.version("balance-subscriber"),
     )
+    parser.add_argument("--username", "-u", default=os.getenv("USERNAME"))
+    parser.add_argument("--password", "-p", default=os.getenv("PASSWORD"))
     return parser.parse_args()
 
 
@@ -70,7 +72,11 @@ def main():
 
     # Connect to message broker
     client = get_client(
-        topics=args.topics, data_dir=args.data_dir, encoding=args.encoding
+        topics=args.topics,
+        data_dir=args.data_dir,
+        encoding=args.encoding,
+        username=args.username,
+        password=args.password,
     )
     client.connect(host=args.host, port=args.port, keepalive=args.keepalive)
 
