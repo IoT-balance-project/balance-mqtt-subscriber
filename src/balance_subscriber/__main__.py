@@ -24,7 +24,11 @@ def get_args():
         help="Directory to save messages to.",
         default=os.getenv("DATA_DIR"),
     )
-    parser.add_argument("--verbose", "-v", action="store_true")
+    parser.add_argument(
+        "--log_level",
+        default=os.getenv("LOG_LEVEL", "WARNING"),
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+    )
     parser.add_argument(
         "topics",
         nargs="*",
@@ -62,7 +66,7 @@ def get_args():
 
 def main():
     args = get_args()
-    logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
+    logging.basicConfig(level=args.log_level)
 
     # Connect to message broker
     client = get_client(
