@@ -1,7 +1,5 @@
 import logging
 
-from paho.mqtt.reasoncodes import ReasonCode
-
 logger = logging.getLogger(__name__)
 
 

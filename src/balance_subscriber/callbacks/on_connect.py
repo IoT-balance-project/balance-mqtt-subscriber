@@ -10,7 +10,7 @@ def on_connect(client, userdata, connect_flags, reason_code: ReasonCode, propert
     The callback for when the client receives a CONNACK response from the server.
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.Client.on_connect
     """
-    logger.info(f"Reason code: '%s'", reason_code)
+    logger.info("Reason code: '%s'", reason_code)
 
     if reason_code.is_failure:
         raise ConnectionError(reason_code)
