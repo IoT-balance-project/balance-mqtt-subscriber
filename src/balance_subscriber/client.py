@@ -7,7 +7,11 @@ import balance_subscriber.callbacks
 
 
 def get_client(
-    topics: set[str], data_dir: Union[str, Path], encoding: str = "utf-8"
+    topics: set[str],
+    data_dir: Union[str, Path],
+    encoding: str = "utf-8",
+    username: str = None,
+    password: str = None,
 ) -> paho.mqtt.client.Client:
     """
     Initialise the MQTT client
@@ -23,6 +27,10 @@ def get_client(
     client.user_data_set(
         dict(topics=topics, data_dir=Path(data_dir), encoding=encoding)
     )
+
+    # Authentication
+    if username:
+        client.username_pw_set(username=username, password=password)
 
     # Register callbacks
     client.on_connect = balance_subscriber.callbacks.on_connect
