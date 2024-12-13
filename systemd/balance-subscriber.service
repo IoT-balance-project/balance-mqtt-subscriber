@@ -1,6 +1,7 @@
 # systemd service
 # https://systemd.io/
 # https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
+# https://github.com/torfsen/python-systemd-tutorial
 
 [Unit]
 Description=Balance MQTT subscriber
