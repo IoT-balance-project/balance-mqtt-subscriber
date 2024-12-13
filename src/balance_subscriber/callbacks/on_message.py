@@ -17,6 +17,8 @@ def on_message(_: Client, userdata: dict, msg: MQTTMessage):
     MQTT message class
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.MQTTMessage
     """
+    logger.debug("Recived. Topic: %s Message: %s", msg.topic, msg.payload)
+
     row = Message.message_to_row(msg, encoding=userdata.get("encoding", "utf-8"))
     path = Topic(msg.topic).to_path(data_dir=userdata["data_dir"])
     # Append to CSV file
