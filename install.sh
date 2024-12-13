@@ -4,7 +4,7 @@ set -e
 venv_dir="/opt/balance-subscriber/venv"
 
 # Install requirements
-apt install -qqq python3.12
+apt install -qqq python3.12 python3.12-venv
 
 # Create virtual environment
 mkdir --parents "$(dirname $venv_dir)"
