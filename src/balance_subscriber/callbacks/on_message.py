@@ -1,13 +1,12 @@
-import csv
 import logging
+import uuid
+from pathlib import Path
 from paho.mqtt.client import MQTTMessage, Client
-from balance_subscriber.message import Message
-from balance_subscriber.topic import Topic
 
 logger = logging.getLogger(__name__)
 
 
-def on_message(_: Client, userdata: dict, msg: MQTTMessage):
+def on_message(client: Client, userdata: dict, msg: MQTTMessage):
     """
     The callback for when a PUBLISH message is received from the server.
 
@@ -18,10 +17,13 @@ def on_message(_: Client, userdata: dict, msg: MQTTMessage):
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.MQTTMessage
     """
 
-    row = Message.message_to_row(msg, encoding=userdata.get("encoding", "utf-8"))
-    path = Topic(msg.topic).to_path(data_dir=userdata["data_dir"])
+    # Convert an MQTT topic to a file path
+    # E.g. 'plant/PL-f15320/Network' becomes 'plant/PL-f15320/Network'
+    # Random unique filename
+    path = Path(userdata["data_dir"]) / msg.topic / f"{uuid.uuid4().hex}.bin"
+    # Ensure subdirectory exists
+    path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Append to CSV file
-    with path.open(mode="a") as file:
-        writer = csv.writer(file)
-        writer.writerow(row)
+    # Serialise payload
+    with path.open(mode="xb") as file:
+        file.write(msg.payload)
