@@ -12,7 +12,6 @@ def on_subscribe(client, userdata, mid, reason_code_list, properties):
     """
 
     for reason_code in reason_code_list:
-        logger.info(reason_code)
-
         if reason_code.is_failure:
             raise SubscriptionError(reason_code)
+        logger.info("Subscribed to '%s'", reason_code)
