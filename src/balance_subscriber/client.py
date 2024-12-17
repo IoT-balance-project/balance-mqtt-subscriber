@@ -37,5 +37,6 @@ def get_client(
     client.on_connect_fail = balance_subscriber.callbacks.on_connect_fail
     client.on_message = balance_subscriber.callbacks.on_message
     client.on_subscribe = balance_subscriber.callbacks.on_subscribe
+    client.on_disconnect = balance_subscriber.callbacks.on_disconnect
 
     return client

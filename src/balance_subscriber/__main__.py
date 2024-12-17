@@ -85,6 +85,7 @@ def main():
         client.loop_forever()
     except KeyboardInterrupt:
         pass
+    client.disconnect()
 
 
 if __name__ == "__main__":
