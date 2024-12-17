@@ -20,6 +20,7 @@ def get_args():
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
         "--data_dir",
+        "-d",
         type=Path,
         help="Directory to save messages to.",
         default=os.getenv("DATA_DIR"),
