@@ -4,6 +4,13 @@
 
 A service to listen for messages and save the data.
 
+```mermaid
+flowchart LR
+publisher --> broker
+broker --> subscriber
+subscriber --> storage[(Storage)]
+```
+
 # Installation
 
 There is a Bash script to install this service: [`install.sh`](install.sh).
