@@ -12,6 +12,7 @@ def get_client(
     encoding: str = "utf-8",
     username: str = None,
     password: str = None,
+    qos: int = 0,
 ) -> paho.mqtt.client.Client:
     """
     Initialise the MQTT client
@@ -25,7 +26,7 @@ def get_client(
     client.enable_logger()
     # Make the topics available to the on_connect callback
     client.user_data_set(
-        dict(topics=topics, data_dir=Path(data_dir), encoding=encoding)
+        dict(topics=topics, data_dir=Path(data_dir), encoding=encoding, qos=qos)
     )
 
     # Authentication
