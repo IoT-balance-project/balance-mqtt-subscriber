@@ -95,8 +95,9 @@ The following options are available.
 | `USERNAME`   | Optional | MQTT broker username                                            |           |
 | `PASSWORD`   | Optional | MQTT broker password                                            |           |
 | `TOPICS`     | Optional | MQTT topics                                                     | #         |
+| `QOS`        | Optional | Quality of service (0, 1, 2)                                    | 0         |
 | `KEEP_ALIVE` | Optional | MQTT broker keep-alive interval (time in seconds)               | 60        |
-| `LOG_LEVEL`  | Optional | Logging verbosity                                              | WARNING   |
+| `LOG_LEVEL`  | Optional | Logging verbosity                                               | WARNING   |
 
 These settings are specified in the configuration file for the systemd service as described above.
 

@@ -20,6 +20,7 @@ def get_args():
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
         "--data_dir",
+        "-d",
         type=Path,
         help="Directory to save messages to.",
         default=os.getenv("DATA_DIR"),
@@ -63,6 +64,9 @@ def get_args():
     )
     parser.add_argument("--username", "-u", default=os.getenv("USERNAME"))
     parser.add_argument("--password", "-p", default=os.getenv("PASSWORD"))
+    parser.add_argument(
+        "-q", "--qos", type=int, choices={0, 1, 2}, default=0, help="Quality of service"
+    )
     return parser.parse_args()
 
 
@@ -77,6 +81,7 @@ def main():
         encoding=args.encoding,
         username=args.username,
         password=args.password,
+        qos=args.qos,
     )
     client.connect(host=args.host, port=args.port, keepalive=args.keepalive)
 
