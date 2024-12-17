@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Union
 
-import paho.mqtt
+import paho.mqtt.client
 
 import balance_subscriber.callbacks
 
