@@ -17,13 +17,17 @@ def on_message(client: Client, userdata: dict, msg: MQTTMessage):
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.MQTTMessage
     """
 
+    # File extension
+    ext = userdata.get("ext", ".bin")
+
     # Convert an MQTT topic to a file path
     # E.g. 'plant/PL-f15320/Network' becomes 'plant/PL-f15320/Network'
     # Random unique filename
-    path = Path(userdata["data_dir"]) / msg.topic / f"{uuid.uuid4().hex}.bin"
+    path = Path(userdata["data_dir"]) / msg.topic / f"{uuid.uuid4().hex}{ext}"
     # Ensure subdirectory exists
     path.parent.mkdir(parents=True, exist_ok=True)
 
     # Serialise payload
+    # Error if the file already exists
     with path.open(mode="xb") as file:
         file.write(msg.payload)

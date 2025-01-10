@@ -67,6 +67,12 @@ def get_args():
     parser.add_argument(
         "-q", "--qos", type=int, choices={0, 1, 2}, default=0, help="Quality of service"
     )
+    parser.add_argument(
+        "-e",
+        "--ext",
+        default=os.getenv("EXT", ".bin"),
+        help="File extension for saved data.",
+    )
     return parser.parse_args()
 
 
@@ -82,6 +88,7 @@ def main():
         username=args.username,
         password=args.password,
         qos=args.qos,
+        ext=args.ext,
     )
     client.connect(host=args.host, port=args.port, keepalive=args.keepalive)
 
