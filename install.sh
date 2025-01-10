@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+# Install the MQTT subscriber service
+
+# Set options
 venv_dir="/opt/balance-subscriber/venv"
+python="$venv_dir/bin/python"
+pip="$python -m pip"
 
 # Install requirements
 apt install -qqq python3.12 python3.12-venv
@@ -10,8 +15,9 @@ apt install -qqq python3.12 python3.12-venv
 mkdir --parents "$(dirname $venv_dir)"
 python3 -m venv $venv_dir
 # Update pip
-$venv_dir/bin/python -m pip install -q --upgrade pip
-$venv_dir/bin/pip install --upgrade balance-subscriber
+$python -m pip install -q --upgrade pip
+# Install the subscriber package
+$pip install --upgrade balance-subscriber
 
 # Install the systemd service
 cp --verbose ./systemd/balance-subscriber.service /etc/systemd/system/balance-subscriber.service
