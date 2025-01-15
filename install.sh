@@ -7,13 +7,14 @@ set -e
 # version: The version of the package to install. Default: latest release
 
 # Set options
+python_version="python3.12"
 venv_dir="/opt/balance-subscriber/venv"
 python="$venv_dir/bin/python"
 pip="$python -m pip"
 version="${1:-*}"
 
 # Install requirements
-apt install -qqq python3.12 python3.12-venv
+apt install -qqq "$python_version" "$python_version-venv"
 
 # Create virtual environment
 mkdir --parents "$(dirname $venv_dir)"
