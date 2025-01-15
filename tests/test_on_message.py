@@ -3,7 +3,6 @@ import datetime
 import logging
 import tempfile
 import time
-import struct
 from pathlib import Path
 
 import paho.mqtt.client
