@@ -34,3 +34,5 @@ jobs:
       - name: Lint with flake8
         run: flake8
       - run: pytest
+      - name: Lint shell scripts
+        run: shellcheck *.sh
