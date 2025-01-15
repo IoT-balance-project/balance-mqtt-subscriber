@@ -12,6 +12,7 @@ sudo pip install --force "git+https://github.com/IoT-balance-project/balance-mqt
 # Testing
 
 ```bash
+isort src
 black src
 flake8
 pytest tests src
