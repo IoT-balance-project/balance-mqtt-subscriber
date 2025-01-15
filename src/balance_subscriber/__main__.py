@@ -70,7 +70,7 @@ def get_args():
     parser.add_argument(
         "-e",
         "--ext",
-        default=os.getenv("EXT", ".bin"),
+        default=os.getenv("EXT", ".csv"),
         help="File extension for saved data.",
     )
     return parser.parse_args()
