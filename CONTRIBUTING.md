@@ -14,8 +14,8 @@ sudo pip install --force "git+https://github.com/IoT-balance-project/balance-mqt
 ```bash
 isort src
 black src
-flake8 src
-pytest
+flake8
+pytest tests src
 ```
 
 # Release process
