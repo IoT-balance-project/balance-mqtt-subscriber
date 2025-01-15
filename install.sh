@@ -4,7 +4,7 @@ set -e
 # Install the MQTT subscriber service
 # Usage:
 # sudo bash -x install.sh $version
-# version: The version of the package to install
+# version: The version of the package to install. Default: latest release
 
 # Set options
 venv_dir="/opt/balance-subscriber/venv"
@@ -21,7 +21,7 @@ python3 -m venv $venv_dir
 # Update pip
 $python -m pip install -q --upgrade pip
 # Install the subscriber package
-$pip install --upgrade balance-subscriber="$version"
+$pip install --upgrade balance-subscriber=="$version"
 
 # Install the systemd service
 cp --verbose ./systemd/balance-subscriber.service /etc/systemd/system/balance-subscriber.service
