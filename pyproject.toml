@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 name = "balance-subscriber"
 description = "MQTT listener to save data"
 readme = "README.md"
-version = "1.0.0rc1"
+version = "1.0.0"
 dependencies = [
     "paho-mqtt==2.*"
 ]
