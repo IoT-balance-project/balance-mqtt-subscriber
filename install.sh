@@ -11,7 +11,7 @@ python_version="python3.12"
 venv_dir="/opt/balance-subscriber/venv"
 python="$venv_dir/bin/python"
 pip="$python -m pip"
-version="${1:-*}"
+version="${1:-1.*}"
 
 # Install requirements
 apt install -qqq "$python_version" "$python_version-venv"

@@ -19,9 +19,9 @@ def on_message(client: Client, userdata: dict, msg: MQTTMessage):
     https://eclipse.dev/paho/files/paho.mqtt.python/html/client.html#paho.mqtt.client.MQTTMessage
     """
 
-    ext = userdata.get("ext", ".csv")
+    ext = userdata.get("ext") or ".csv"
     "File extension"
-    encoding = userdata.get("encoding", "utf-8")
+    encoding = userdata.get("encoding") or "utf-8"
     data_dir = Path(userdata["data_dir"])
     "The root directory for serialising messages."
 

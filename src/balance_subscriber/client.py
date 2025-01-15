@@ -7,13 +7,13 @@ import balance_subscriber.callbacks
 
 
 def get_client(
-    topics: set[str],
-    data_dir: Union[str, Path],
-    encoding: str = None,
-    username: str = None,
-    password: str = None,
-    qos: int = 0,
-    ext: str = None,
+        topics: set[str],
+        data_dir: Union[str, Path],
+        encoding: str = None,
+        username: str = None,
+        password: str = None,
+        qos: int = 0,
+        ext: str = None,
 ) -> paho.mqtt.client.Client:
     """
     Initialise the MQTT client
@@ -22,7 +22,6 @@ def get_client(
         raise ValueError("No data directory specified")
 
     encoding = encoding or "utf-8"
-    ext = ext or ".bin"
 
     # Initialise client
     client = paho.mqtt.client.Client(paho.mqtt.client.CallbackAPIVersion.VERSION2)
