@@ -136,6 +136,6 @@ sudo systemctl status balance-subscriber.service
 
 View logs
 
-```
+```bash
 sudo journalctl -u balance-subscriber.service --since "1 hour ago"
 ```
