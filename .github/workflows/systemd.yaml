@@ -2,6 +2,8 @@
 # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions
 name: Lint systemd units
 on: [ push ]
+permissions:
+  contents: read
 jobs:
   lint:
     runs-on: ubuntu-24.04
