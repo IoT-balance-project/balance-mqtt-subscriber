@@ -1,9 +1,16 @@
+# An experimental automatic code review solution using Claude API.
+#
+# 1. Serialise all the code in the repository into a single file, with headers for filenames (so the LLM knows the project structure.)
+# 2. Ask the LLM to analyse the code and generate a patch that will apply a diff to the original codebase.
+# 3. Apply that patch to modify the source code.
+# 4. Create a PR to propose those changes.
 name: Code review
 on: [ push, workflow_dispatch ]
 permissions:
   contents: read
 jobs:
   code-review:
+    name: Code review
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -32,4 +39,4 @@ jobs:
       - name: Apply patch
         run: patch < ${{ runner.temp }}/diff.patch
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7.0.6
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
