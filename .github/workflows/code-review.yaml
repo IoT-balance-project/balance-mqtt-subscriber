@@ -35,8 +35,8 @@ jobs:
           head ${{ runner.temp }}/diff.patch
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-      # https://manpages.ubuntu.com/manpages/noble/man1/patch.1.html
+      # https://git-scm.com/docs/git-apply
       - name: Apply patch
-        run: patch --batch < ${{ runner.temp }}/diff.patch
+        run: git apply --verbose ${{ runner.temp }}/diff.patch
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6

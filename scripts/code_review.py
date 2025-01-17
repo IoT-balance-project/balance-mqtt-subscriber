@@ -17,19 +17,17 @@ SYSTEM_PROMPT = os.getenv(
     "SYSTEM_PROMPT",
     textwrap.dedent(
         """
-Create a diff patch containing suggested code changes that can be applied to the files
-using the patch tool.
+Create a git diff patch file containing suggested code changes that can be applied to the files
+using the git-patch tool.
 
-You will respond only with a valid diff file format, with no explanatory text or markdown formatting.
+You will respond only with a valid git-diff file format.
+It must be the output of the Linux command git diff. The output must be valid input to the command `git apply`.
 
-The files will be the Python code used to create a Django web
-application. Each contents of each file in the input will be preceded by the filename
-of that file, such as SORT/settings.py
+The files will be the Python code used to create a Django web application. Each contents of each file
+in the input will be preceded by the filename of that file, such as SORT/settings.py
 
 Please generate all suggested changes, primarily focussed on code quality, performance,
-security, and project organisation.
-
-Please only return the patch file with no explanatory text. The output must be a valid diff syntax only."""
+security, and project organisation. Feel free to add concise, helpful code comments."""
     ).strip(),
 )
 
@@ -42,8 +40,15 @@ def get_args():
     parser.add_argument("-m", "--max_tokens", type=int, default=8192)
     parser.add_argument("-t", "--temperature", type=float, default=1.0)
     parser.add_argument("-o", "--model", default=ANTHROPIC_MODEL)
-    parser.add_argument("-l", "--loglevel", default="INFO")
+    parser.add_argument(
+        "-l",
+        "--log_level",
+        default="INFO",
+        help="Verbosity",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+    )
     parser.add_argument("-c", "--content", default=sys.stdin.read())
+    parser.add_argument("-s", "--system", default=SYSTEM_PROMPT, help="System prompt")
     return parser.parse_args()
 
 
@@ -71,11 +76,11 @@ def extract_markdown_diff(markdown: str) -> list[str]:
 
 def main():
     args = get_args()
-    logging.basicConfig(level=args.loglevel)
+    logging.basicConfig(level=args.log_level)
 
     # Set up Anthropic API access
     client = anthropic.Anthropic(
-        api_key=ANTHROPIC_API_KEY,
+        api_key=args.api_key,
     )
 
     text = str(args.content).strip()
@@ -88,7 +93,7 @@ def main():
         model=args.model,
         max_tokens=args.max_tokens,
         temperature=args.temperature,
-        system=SYSTEM_PROMPT,
+        system=args.system,
         messages=[
             dict(
                 role="user",
