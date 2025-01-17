@@ -3,7 +3,7 @@ import sys
 
 import anthropic
 
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 
 
 def main():
