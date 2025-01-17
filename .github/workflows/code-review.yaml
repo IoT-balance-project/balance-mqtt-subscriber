@@ -17,8 +17,9 @@ jobs:
         run: pip install anthropic==0.*
       - name: Serialise site code
         # Get the codebase and save to a file
-        run: |
-          find . -type f -name '*.py' -print -exec cat {} \; > ${{ runner.temp }}/all_code.txt
+        # https://manpages.ubuntu.com/manpages/noble/man1/find.1.html
+        run: |          
+          find src -type f -name "*.py" -print -exec cat {} \; > ${{ runner.temp }}/all_code.txt
           head ${{ runner.temp }}/all_code.txt
       - name: Code review
         # Get Claude to review the code and suggest changes (write a patch file)

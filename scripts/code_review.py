@@ -20,7 +20,7 @@ def get_args():
     parser.add_argument("-t", "--temperature", type=int, default=0)
     parser.add_argument("-o", "--model", default="claude-3-5-sonnet-20241022")
     parser.add_argument("-l", "--loglevel", default="INFO")
-    parser.add_argument("-c", "--content", default=str(sys.stdin))
+    parser.add_argument("-c", "--content", default=sys.stdin.read())
     return parser.parse_args()
 
 
