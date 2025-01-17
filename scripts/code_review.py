@@ -1,20 +1,31 @@
+import argparse
 import os
 import sys
 
 import anthropic
 
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+"https://docs.anthropic.com/en/api/getting-started"
+
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m", "--max_tokens", type=int, default=8192)
+    parser.add_argument("-t", "--temperature", type=int, default=0)
+    parser.add_argument("-o", "--model", default="claude-3-5-sonnet-20241022")
+    return parser.parse_args()
 
 
 def main():
+    args = get_args()
     client = anthropic.Anthropic(
         api_key=ANTHROPIC_API_KEY,
     )
 
     message = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
-        max_tokens=8192,
-        temperature=0,
+        model=args.model,
+        max_tokens=args.max_tokens,
+        temperature=args.temperature,
         system="Create a diff patch containing suggested code changes that can be applied to the files using the patch"
         "tool. The files will be the Python code used to create a Django web application. Each contents of each"
         "file in the input will be preceded by the filename of that file, such as SORT/settings.py\n\nPlease"
