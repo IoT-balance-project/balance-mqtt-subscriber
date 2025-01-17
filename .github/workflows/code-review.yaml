@@ -1,7 +1,5 @@
 name: Code review
-on:
-  # Run manually
-  workflow_dispatch:
+on: [ push, workflow_dispatch ]
 permissions:
   contents: read
 jobs:
