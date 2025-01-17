@@ -2,6 +2,8 @@ name: Code review
 on:
   # Run manually
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   code-review:
     runs-on: ubuntu-24.04
