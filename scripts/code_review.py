@@ -1,5 +1,6 @@
 import os
 import sys
+
 import anthropic
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
@@ -15,10 +16,10 @@ def main():
         max_tokens=8192,
         temperature=0,
         system="Create a diff patch containing suggested code changes that can be applied to the files using the patch"
-               "tool. The files will be the Python code used to create a Django web application. Each contents of each"
-               "file in the input will be preceded by the filename of that file, such as SORT/settings.py\n\nPlease"
-               "generate all suggested changes, primarily focussed on code quality, performance, security, and project"
-               "organisation.",
+        "tool. The files will be the Python code used to create a Django web application. Each contents of each"
+        "file in the input will be preceded by the filename of that file, such as SORT/settings.py\n\nPlease"
+        "generate all suggested changes, primarily focussed on code quality, performance, security, and project"
+        "organisation.",
         messages=[
             dict(
                 role="user",
@@ -28,13 +29,13 @@ def main():
                         # Get input from the command line
                         text=str(sys.stdin),
                     )
-                ]
+                ],
             )
-        ]
+        ],
     )
 
     print(message.content)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
