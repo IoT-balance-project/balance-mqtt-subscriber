@@ -22,7 +22,7 @@ jobs:
         run: find . -type f -name '*.py' -print -exec cat {} \; > ${{ runner.temp }}/all_code.txt
       - name: Code review
         # Get Claude to review the code and suggest changes (write a patch file)
-        run: cat ${{ runner.temp }}/all_code.txt | python scripts/claude_code_review.py > ${{ runner.temp }}/diff.patch
+        run: cat ${{ runner.temp }}/all_code.txt | python -m scripts.code_review > ${{ runner.temp }}/diff.patch
       # https://manpages.ubuntu.com/manpages/noble/man1/patch.1.html
       - name: Apply patch
         run: patch < ${{ runner.temp }}/diff.patch
