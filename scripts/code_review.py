@@ -104,18 +104,19 @@ def main():
     )
 
     # Show query information
-    logger.info(response.id)
-    logger.info(response.model)
-    logger.info(response.stop_reason)
-    logger.info(response.role)
-    logger.info(response.type)
-    logger.info(response.usage)
+    logger.info("Response ID: %s", response.id)
+    logger.info("Model: %s", response.model)
+    logger.info("Stop reason: %s", response.stop_reason)
+    logger.info("Role: %s", response.role)
+    logger.info("Type: %s", response.type)
+    logger.info("Usage: %s", response.usage)
 
     # Show results
     for i, text_block in enumerate(response.content):
         logger.info("Text block #%s type: %s", i, text_block.type)
         # Get the diff file contents only, without any explainer text
-        for diff in extract_markdown_diff(text_block.text):
+        for j, diff in enumerate(extract_markdown_diff(text_block.text)):
+            logger.info("Patch block #%s", j)
             print(diff)
 
 
