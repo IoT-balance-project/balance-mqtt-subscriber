@@ -1,4 +1,7 @@
+#!/usr/bin/env python
+
 import argparse
+import logging
 import os
 import sys
 
@@ -7,21 +10,28 @@ import anthropic
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 "https://docs.anthropic.com/en/api/getting-started"
 
+logger = logging.getLogger(__name__)
+
 
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--max_tokens", type=int, default=8192)
     parser.add_argument("-t", "--temperature", type=int, default=0)
     parser.add_argument("-o", "--model", default="claude-3-5-sonnet-20241022")
+    parser.add_argument("-l", "--loglevel", default="INFO")
     return parser.parse_args()
 
 
 def main():
     args = get_args()
+    logging.basicConfig(level=args.loglevel)
+
+    # Set up Anthropic API access
     client = anthropic.Anthropic(
         api_key=ANTHROPIC_API_KEY,
     )
 
+    # Send the contents to the Claude API
     message = client.messages.create(
         model=args.model,
         max_tokens=args.max_tokens,
