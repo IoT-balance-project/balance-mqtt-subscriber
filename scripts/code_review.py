@@ -6,40 +6,46 @@ import os
 import re
 import sys
 import textwrap
+from pathlib import Path
 
-import anthropic
+import langchain_core.messages
+import langchain_core.language_models
+import langchain_anthropic
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
-"https://docs.anthropic.com/en/api/getting-started"
-ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-3-5-haiku-latest")
+MODEL = os.getenv("MODEL", "claude-3-5-haiku-latest")
 "https://docs.anthropic.com/en/docs/about-claude/models"
 SYSTEM_PROMPT = os.getenv(
     "SYSTEM_PROMPT",
     textwrap.dedent(
         """
-Create a git diff patch file containing suggested code changes that can be applied to the files
-using the git-patch tool.
+Create a diff file containing suggested code changes that can be applied to the files using the patch tool in Linux.
 
-You will respond only with a valid git-diff file format.
-It must be the output of the Linux command git diff. The output must be valid input to the command `git apply`.
+Respond only with a valid diff file format. It must be the output of the Linux command git diff. The output must be
+valid input to the command `patch`.
 
-The files will be the Python code used to create a Django web application. Each contents of each file
-in the input will be preceded by the filename of that file, such as SORT/settings.py
-
-Please generate all suggested changes, primarily focussed on code quality, performance,
-security, and project organisation. Feel free to add concise, helpful code comments."""
+The contents of each file in the input will be contained inside XML tags for example
+<file path="src/my_module/__main__.py"></file>
+"""
     ).strip(),
 )
 
 logger = logging.getLogger(__name__)
 
 
+def input_file(x) -> str:
+    """Either read input data or open file path"""
+    if not x:
+        return sys.stdin.read()
+    with Path(x).open() as file:
+        return file.read()
+
+
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-a", "--api_key", default=ANTHROPIC_API_KEY)
+    parser.add_argument("-a", "--api_key")
     parser.add_argument("-m", "--max_tokens", type=int, default=8192)
     parser.add_argument("-t", "--temperature", type=float, default=1.0)
-    parser.add_argument("-o", "--model", default=ANTHROPIC_MODEL)
+    parser.add_argument("-o", "--model", default=MODEL)
     parser.add_argument(
         "-l",
         "--log_level",
@@ -47,7 +53,7 @@ def get_args():
         help="Verbosity",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
     )
-    parser.add_argument("-c", "--content", default=sys.stdin.read())
+    parser.add_argument("-c", "--content", type=input_file)
     parser.add_argument("-s", "--system", default=SYSTEM_PROMPT, help="System prompt")
     return parser.parse_args()
 
@@ -74,55 +80,48 @@ def extract_markdown_diff(markdown: str) -> list[str]:
         yield diff.rstrip()
 
 
+def get_model(model_name: str, **kwargs) -> langchain_core.language_models.BaseLanguageModel:
+    if model_name.startswith("claude"):
+
+        if not os.environ.get("ANTHROPIC_API_KEY"):
+            import getpass
+            os.environ["ANTHROPIC_API_KEY"] = getpass.getpass("Enter API key for Anthropic: ")
+
+        from langchain_anthropic import ChatAnthropic
+
+        model = ChatAnthropic(model=model_name, **kwargs)
+
+    else:
+        import langchain_ollama.chat_models
+
+        model = langchain_ollama.chat_models.ChatOllama(model=model_name, **kwargs)
+
+    return model
+
+
 def main():
     args = get_args()
     logging.basicConfig(level=args.log_level)
 
-    # Set up Anthropic API access
-    client = anthropic.Anthropic(
-        api_key=args.api_key,
-    )
+    # Configure LLM
+    model = get_model(args.model, temperature=args.temperature, max_tokens=args.max_tokens)
 
+    # Build request
     text = str(args.content).strip()
+    messages = [
+        # System message
+        langchain_core.messages.SystemMessage(args.system),
+        # Prompt text
+        langchain_core.messages.HumanMessage(text)
+    ]
 
-    logger.info("Reviewing code...")
+    logger.info("Invoking model...")
+    message: langchain_core.messages.AIMessage = model.invoke(messages)
 
-    # Send the contents to the Claude API
-    # https://docs.anthropic.com/en/api/messages
-    response = client.messages.create(
-        model=args.model,
-        max_tokens=args.max_tokens,
-        temperature=args.temperature,
-        system=args.system,
-        messages=[
-            dict(
-                role="user",
-                content=[
-                    dict(
-                        type="text",
-                        # Get input from the command line
-                        text=text,
-                    )
-                ],
-            )
-        ],
-    )
-
-    # Show query information
-    logger.info("Response ID: %s", response.id)
-    logger.info("Model: %s", response.model)
-    logger.info("Stop reason: %s", response.stop_reason)
-    logger.info("Role: %s", response.role)
-    logger.info("Type: %s", response.type)
-    logger.info("Usage: %s", response.usage)
-
-    # Show results
-    for i, text_block in enumerate(response.content):
-        logger.info("Text block #%s type: %s", i, text_block.type)
-        # Get the diff file contents only, without any explainer text
-        for j, diff in enumerate(extract_markdown_diff(text_block.text)):
-            logger.info("Patch block #%s", j)
-            print(diff)
+    logger.info(message.id)
+    logger.info(message.response_metadata)
+    logger.info(message.usage_metadata)
+    print(message.content)
 
 
 if __name__ == "__main__":
