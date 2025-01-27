@@ -24,6 +24,8 @@ valid input to the command `patch`.
 
 The contents of each file in the input will be contained inside XML tags for example
 <file path="src/my_module/__main__.py"></file>
+
+Do not produce git-diff output. Only produce a valid GNU Linux diff patch file.
 """
     ).strip(),
 )
@@ -120,7 +122,9 @@ def main():
     logger.info(message.id)
     logger.info(message.response_metadata)
     logger.info(message.usage_metadata)
-    print(message.content)
+
+    for diff in extract_markdown_diff(message.content):
+        print(diff)
 
 
 if __name__ == "__main__":
