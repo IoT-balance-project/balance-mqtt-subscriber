@@ -10,7 +10,6 @@ from pathlib import Path
 
 import langchain_core.messages
 import langchain_core.language_models
-import langchain_anthropic
 
 MODEL = os.getenv("MODEL", "claude-3-5-haiku-latest")
 "https://docs.anthropic.com/en/docs/about-claude/models"
