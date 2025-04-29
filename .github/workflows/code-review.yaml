@@ -1,0 +1,42 @@
+# An experimental automatic code review solution using Claude API.
+#
+# 1. Serialise all the code in the repository into a single file, with headers for filenames (so the LLM knows the project structure.)
+# 2. Ask the LLM to analyse the code and generate a patch that will apply a diff to the original codebase.
+# 3. Apply that patch to modify the source code.
+# 4. Create a PR to propose those changes.
+name: Code review
+on: [ push, workflow_dispatch ]
+permissions:
+  contents: read
+jobs:
+  code-review:
+    name: Code review
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.12"
+          cache: "pip"
+      - name: Install Langchain packages
+        run: pip install langchain langchain-anthropic langchain-ollama
+      - name: Serialise site code
+        # Get the codebase and save to a file
+        # https://manpages.ubuntu.com/manpages/noble/man1/find.1.html
+        run: |          
+          find src -type f -name "*.py" -exec echo "<file path=\"{}\">" \; -exec cat {} \; -exec echo "</file>" \; > ${{ runner.temp }}/all_code.xml
+          head ${{ runner.temp }}/all_code.xml
+      - name: Code review
+        # Get Claude to review the code and suggest changes (write a patch file)
+        run: |
+          cat ${{ runner.temp }}/all_code.xml | python -m scripts.code_review > ${{ runner.temp }}/diff.patch
+          head ${{ runner.temp }}/diff.patch
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      # https://git-scm.com/docs/git-apply
+      - name: Apply patch
+        run: git apply --verbose ${{ runner.temp }}/diff.patch
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
